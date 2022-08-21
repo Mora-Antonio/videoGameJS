@@ -1,0 +1,114 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Silkscreen', cursive;
+}
+:root{
+    font-size: 62.5%;
+    --azul: #10162f;
+    --blanco: #ffffff;
+    --negro: #10162f;
+}
+section.game-container{
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+}
+h1{
+    font-size: 3.4rem;
+    font-weight: 900;
+    color: var(--blanco);
+    background-color: #6400e4;
+    padding: 12px;
+    border-radius: 6px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+h1 span{
+    display: inline-block;
+    padding: 3px;
+    background-color: var(--negro);
+}
+canvas.game{
+    box-sizing: initial;
+    border: 2px solid var(--azul);
+    box-shadow: -6px 6px 0 var(--negro);
+    background-color: var(--blanco);
+    margin-top: 10px;
+    padding: 0px 4px 4px 4px;
+}
+.buton-container{
+    width: 100vw;
+    max-width: 900px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 20px;
+    margin-top: 20px;
+}
+.buton-container button{
+    width: 150px;
+    height: 55px;
+    border-radius: 4px;
+    border: 2px solid #3a10e5;
+    background-color: #3a10e5;
+    color: var(--blanco);
+    font-size: 1.6rem;
+    font-weight: bold;
+    line-height: 1.1;
+    box-shadow: -6px 6px 0 var(--negro);
+}
+.buton-container button:hover{
+    box-shadow: -8px 8px 0 var(--negro);
+}
+.messafes-container{
+    width: 600px;
+    display: flex;
+    align-items: center;
+    margin: 20px auto 0 auto;
+}
+.messafes-container p{
+    padding: 8px;
+    color: var(--blanco);
+    border-radius: 6px;
+    font-size: 1.6rem;
+    min-width: 200px;
+}
+p span{
+    display: inline-block;
+    padding: 8px;
+    background-color: var(--negro);
+}
+@media (max-width: 610px){
+    .messafes-container{
+        width: 100%;
+        flex-direction: column;
+    }
+}
+@media (max-width: 800px) {
+    .buton-container{
+        display: grid;
+        max-width: 350px;
+        height: auto;
+        grid-template-columns: repeat(2,1fr);
+        grid-template-rows: repeat(3,1fr);
+        gap: 20px;
+    }
+    button{
+        place-self: center;
+    }
+    button#up{
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+    button#down{
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+}
