@@ -12,14 +12,13 @@ function startGame(){
     game.font = `${elementSize}px Arial`;
     game.textAlign = 'start';
     let mapaActual = mapasOrdenados[2];
-    for(let i = 1; i <= mapaActual.length; i++){
-        let posicionY = elementSize * i;
-        let lineaMapa = mapaActual[i - 1];
-        for(let w = 0; w < lineaMapa.length; w++){
-            let posiconX = elementSize * w;
-            game.fillText(emojis[lineaMapa[w]], posiconX,  posicionY);
-        }
-    }
+    mapaActual.forEach((row, indexRow) => {
+        let posicionY = (indexRow + 1)  * elementSize;
+        row.forEach((column, indexColumn) =>{
+            let posiconX =  indexColumn * elementSize;
+            game.fillText(emojis[column], posiconX, posicionY );
+        });
+    });
 }
 function setCanvasSize(){
     window.innerHeight > window.innerWidth ? canvasSize = window.innerWidth * 0.8 : canvasSize = window.innerHeight * 0.8;
