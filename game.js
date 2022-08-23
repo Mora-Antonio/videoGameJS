@@ -4,19 +4,31 @@ const playerPostion = {
     x: undefined,
     y: undefined,
 }
+const playerPositionFinish = {
+    x: undefined,
+    y: undefined,
+}
+
+const trophyPostion = {
+    x: undefined,
+    y: undefined,
+}
+
+let bombs = [];
 
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
 
 let canvasSize;
 let elementSize;
+let nivel = 0;
 
 let mapasOrdenados = maps.map(element => element.split(`\n    `)).map(element => element.map(item => Object.values(item)));
 
 function startGame(){
     game.font = `${elementSize}px Arial`;
     game.textAlign = 'start';
-    let mapaActual = mapasOrdenados[0];
+    let mapaActual = mapasOrdenados[nivel];
     
     mapaActual.forEach((row, indexRow) => {
         let posicionY = (indexRow + 1)  * elementSize;
@@ -25,19 +37,55 @@ function startGame(){
             game.fillText(emojis[column], posiconX, posicionY );
 
             if(playerPostion.x === undefined && column == 'O'){
-                playerPostion.x  = posiconX;
-                playerPostion.y = posicionY;
+                playerPostion.x  = indexColumn;
+                playerPostion.y = indexRow + 1;
+                
+            }
+            if(column == 'I'){
+                trophyPostion.x  = posiconX;
+                trophyPostion.y = posicionY;
+            }
+            if(column == 'X'){
+                bombs.push({
+                    x: posiconX,
+                    y: posicionY,
+                })
             }
         });
     });
     movePlayer();
 }
 
+function victory(){
+    if(playerPositionFinish.x ===  trophyPostion.x && playerPositionFinish.y ===  trophyPostion.y){
+        console.log('Ganaste');
+        if(nivel == 2){
+            nivel = 0;
+        }else{
+            nivel += 1;
+        }
+        console.log(nivel)
+        setCanvasSize();
+    }
+}
+function defeat(){
+    for(bom of bombs){
+        if(playerPositionFinish.x == bom['x'] && playerPositionFinish.y == bom['y']){
+            console.log('Perdiste');
+        }
+    }
+}
+
 function movePlayer(){
-    game.fillText(emojis['PLAYER'], playerPostion.x, playerPostion.y);
+    defeat();
+    victory();
+    playerPositionFinish.x = playerPostion.x * elementSize;
+    playerPositionFinish.y = playerPostion.y * elementSize;
+    game.fillText(emojis['PLAYER'], playerPositionFinish.x, playerPositionFinish.y);
 }
 function setCanvasSize(){
     window.innerHeight > window.innerWidth ? canvasSize = window.innerWidth * 0.75 : canvasSize = window.innerHeight * 0.75;
+    bombs = [];
     canvas.setAttribute('width', canvasSize);
     canvas.setAttribute('height', canvasSize);
     elementSize = Math.floor(canvasSize/10);
@@ -57,38 +105,38 @@ buttonRight.addEventListener('click', moveRight);
 buttonLeft.addEventListener('click', moveLeft);
 
 function moveUp(){
-    if(playerPostion.y == elementSize * 1){
+    if(playerPositionFinish.y == elementSize * 1){
         playerPostion.y = playerPostion.y;
     }else{
-        playerPostion.x += 0;
-        playerPostion.y -= elementSize;
+        playerPostion.y -= 1;
+        playerPositionFinish.y = playerPostion.y * elementSize;
     }
     setCanvasSize();
 }
 function moveDown(){
-    if(playerPostion.y == elementSize * 10){
+    if(playerPositionFinish.y == elementSize * 10){
         playerPostion.y = playerPostion.y;
     }else{
-        playerPostion.x += 0;
-        playerPostion.y += elementSize;
+        playerPostion.y += 1;
+        playerPositionFinish.y = playerPostion.y * elementSize;
     }
     setCanvasSize();
 }
 function moveRight(){
-    if(playerPostion.x == elementSize * 9){
+    if(playerPositionFinish.x == elementSize * 9){
         playerPostion.x = playerPostion.x;
     }else{
-        playerPostion.x += elementSize;
-        playerPostion.y += 0;
+        playerPostion.x += 1;
+        playerPositionFinish.x = playerPostion.x * elementSize;
     }
     setCanvasSize();
 }
 function moveLeft(){
-    if(playerPostion.x == 0){
+    if(playerPositionFinish.x == 0){
         playerPostion.x = playerPostion.x;
     }else{
-        playerPostion.x -= elementSize;
-        playerPostion.y += 0;
+        playerPostion.x -= 1;
+        playerPositionFinish.x = playerPostion.x * elementSize;
     }
     setCanvasSize();
 }

@@ -36,7 +36,7 @@ const emojis = {
     XX--XXX-XX
     XXXX---IXX
     XXXXXXXXXX`);
-  maps.push(`I-----XXXX
+  maps.push(`XI----XXXX
     XXXXX-XXXX
     XX----XXXX
     XX-XXXXXXX
