@@ -72,15 +72,16 @@ function defeat(){
     for(bom of bombs){
         if(playerPositionFinish.x == bom['x'] && playerPositionFinish.y == bom['y']){
             console.log('Perdiste');
+            playerPostion.x = undefined;
         }
     }
 }
 
 function movePlayer(){
-    defeat();
     victory();
     playerPositionFinish.x = playerPostion.x * elementSize;
     playerPositionFinish.y = playerPostion.y * elementSize;
+    console.log(`x: ${playerPositionFinish.x} y: ${playerPositionFinish.y}`)
     game.fillText(emojis['PLAYER'], playerPositionFinish.x, playerPositionFinish.y);
 }
 function setCanvasSize(){
@@ -111,6 +112,7 @@ function moveUp(){
         playerPostion.y -= 1;
         playerPositionFinish.y = playerPostion.y * elementSize;
     }
+    defeat();
     setCanvasSize();
 }
 function moveDown(){
@@ -120,6 +122,7 @@ function moveDown(){
         playerPostion.y += 1;
         playerPositionFinish.y = playerPostion.y * elementSize;
     }
+    defeat();
     setCanvasSize();
 }
 function moveRight(){
@@ -129,6 +132,7 @@ function moveRight(){
         playerPostion.x += 1;
         playerPositionFinish.x = playerPostion.x * elementSize;
     }
+    defeat();
     setCanvasSize();
 }
 function moveLeft(){
@@ -138,6 +142,7 @@ function moveLeft(){
         playerPostion.x -= 1;
         playerPositionFinish.x = playerPostion.x * elementSize;
     }
+    defeat();
     setCanvasSize();
 }
 function mostrarTecla(event){
