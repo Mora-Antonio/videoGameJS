@@ -16,7 +16,7 @@ let mapasOrdenados = maps.map(element => element.split(`\n    `)).map(element =>
 function startGame(){
     game.font = `${elementSize}px Arial`;
     game.textAlign = 'start';
-    let mapaActual = mapasOrdenados[1];
+    let mapaActual = mapasOrdenados[0];
     
     mapaActual.forEach((row, indexRow) => {
         let posicionY = (indexRow + 1)  * elementSize;
@@ -57,32 +57,40 @@ buttonRight.addEventListener('click', moveRight);
 buttonLeft.addEventListener('click', moveLeft);
 
 function moveUp(){
-    console.log('Arriba');
-    playerPostion.x += 0;
-    playerPostion.y -= elementSize;
+    if(playerPostion.y == elementSize * 1){
+        playerPostion.y = playerPostion.y;
+    }else{
+        playerPostion.x += 0;
+        playerPostion.y -= elementSize;
+    }
     setCanvasSize();
-    startGame();
 }
 function moveDown(){
-    console.log('Abajo');
-    playerPostion.x += 0;
-    playerPostion.y += elementSize;
+    if(playerPostion.y == elementSize * 10){
+        playerPostion.y = playerPostion.y;
+    }else{
+        playerPostion.x += 0;
+        playerPostion.y += elementSize;
+    }
     setCanvasSize();
-    movePlayer();
 }
 function moveRight(){
-    console.log('Derecha');
-    playerPostion.x += elementSize;
-    playerPostion.y += 0;
+    if(playerPostion.x == elementSize * 9){
+        playerPostion.x = playerPostion.x;
+    }else{
+        playerPostion.x += elementSize;
+        playerPostion.y += 0;
+    }
     setCanvasSize();
-    movePlayer();
 }
 function moveLeft(){
-    console.log('Izquierda');
-    playerPostion.x -= elementSize;
-    playerPostion.y += 0;
+    if(playerPostion.x == 0){
+        playerPostion.x = playerPostion.x;
+    }else{
+        playerPostion.x -= elementSize;
+        playerPostion.y += 0;
+    }
     setCanvasSize();
-    movePlayer();
 }
 function mostrarTecla(event){
     switch (event.code){
