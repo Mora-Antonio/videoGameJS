@@ -96,8 +96,6 @@ function winGame(){
     console.log('Ganaste el juego')
 }
 
-
-
 window.addEventListener('keyup', mostrarTecla);
 
 function mostrarTecla(event){
