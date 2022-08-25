@@ -10,6 +10,9 @@
     --blanco: #ffffff;
     --negro: #10162f;
 }
+main{
+    overflow-x: hidden;
+}
 section.game-container{
     width: 100vw;
     min-height: 100vh;
@@ -67,13 +70,13 @@ canvas.game{
 .buton-container button:hover{
     box-shadow: -8px 8px 0 var(--negro);
 }
-.messafes-container{
-    width: 600px;
+.messages-container{
+    width: 700px;
     display: flex;
     align-items: center;
     margin: 20px auto 0 auto;
 }
-.messafes-container p{
+.messages-container p{
     padding: 8px;
     color: var(--blanco);
     border-radius: 6px;
@@ -87,7 +90,7 @@ p span{
     border-radius: 4px;
 }
 @media (max-width: 610px){
-    .messafes-container{
+    .messages-container{
         width: 100%;
         flex-direction: column;
     }

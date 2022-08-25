@@ -21,9 +21,10 @@ let nivel = 0;
 let lives = 3;
 const vidas = document.querySelector('#lives');
 const timeGame = document.querySelector('#time');
-let timeStart = 0;
+const spanTimeRecord = document.querySelector('#timeRecord');
+let timeStart;
+let timeInterval;
 let timePlayer;
-let timeInterval = setInterval(showTimeGame(), 1000);
 
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
@@ -40,7 +41,6 @@ function startGame(){
 
     game.font = `${elementSize}px Arial`;
     game.textAlign = 'start';
-
     let mapaActual = mapasOrdenados[nivel];
 
     if(!mapaActual){
@@ -93,14 +93,16 @@ function defeat(){
     const enemyCollision = enemyPositions.find(enemy => {
         const enemyCollisionX = enemy['x'] == playerPositionFinish.x;
         const enemyCollisionY = enemy['y'] == playerPositionFinish.y;
-        return enemyCollisionX && enemyCollisionY;
-      });
-      if(enemyCollision){
+        return enemyCollisionX && enemyCollisionY;}
+    );
+    if(enemyCollision){
         lives = lives -1;
         if(lives <= 0){
             nivel = 0;
             lives = 3;
-            timeStart = 0;
+            clearInterval(timeInterval);
+            timeGame.innerHTML = '0.00';
+            timeStart = undefined;
         }
         playerPostion.x = undefined;
         playerPostion.y = undefined;
@@ -109,16 +111,22 @@ function defeat(){
 }
 
 function winGame(){
-    console.log('Ganaste el juego')
+    clearInterval(timeInterval);
+    let recordGlobal = parseFloat(localStorage.getItem('timeRecord'));
+    console.log(recordGlobal);
+    // if(parseFloat(localStorage.getItem('timeRecord')) >= timePlayer){
+    //     localStorage.setItem('timeRecord',timePlayer);
+    // }
+    // spanTimeRecord.innerHTML = localStorage.getItem('timeRecord',timePlayer);
 }
 
 function getStartTime(){
-    if(timeStart == 0){
+    if(!timeStart){
         timeStart = Date.now();
+        timeInterval = setInterval(showTimeGame, 100);
     }else{
         timeStart = timeStart;
     }
-    console.log(timeStart);
 }
 
 function showLives(){
@@ -130,7 +138,8 @@ function showLives(){
 }
 
 function showTimeGame(){
-    timeGame.innerHTML = Date.now() - timeStart;
+    timePlayer = Math.round(((Date.now() - timeStart) / 1000)*100)/ 100;
+    timeGame.innerHTML = timePlayer;
 }
 
 window.addEventListener('keyup', mostrarTecla);
