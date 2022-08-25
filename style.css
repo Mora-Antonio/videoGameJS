@@ -84,6 +84,7 @@ p span{
     display: inline-block;
     padding: 8px;
     background-color: var(--negro);
+    border-radius: 4px;
 }
 @media (max-width: 610px){
     .messafes-container{

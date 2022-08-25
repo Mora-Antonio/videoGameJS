@@ -18,6 +18,12 @@ const trophyPostion = {
 }
 let enemyPositions = [];
 let nivel = 0;
+let lives = 3;
+const vidas = document.querySelector('#lives');
+const timeGame = document.querySelector('#time');
+let timeStart = 0;
+let timePlayer;
+let timeInterval = setInterval(showTimeGame(), 1000);
 
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
@@ -65,6 +71,7 @@ function startGame(){
             game.fillText(emojis[column], posiconX, posicionY );
         });
     });
+    showLives();
     movePlayer();
 }
 
@@ -83,17 +90,47 @@ function victory(){
     }
 }
 function defeat(){
-    for(bom of enemyPositions){
-        if(playerPositionFinish.x == bom['x'] && playerPositionFinish.y == bom['y']){
-            playerPostion.x = undefined;
-            playerPostion.y = undefined;
-            startGame();
+    const enemyCollision = enemyPositions.find(enemy => {
+        const enemyCollisionX = enemy['x'] == playerPositionFinish.x;
+        const enemyCollisionY = enemy['y'] == playerPositionFinish.y;
+        return enemyCollisionX && enemyCollisionY;
+      });
+      if(enemyCollision){
+        lives = lives -1;
+        if(lives <= 0){
+            nivel = 0;
+            lives = 3;
+            timeStart = 0;
         }
-    }
+        playerPostion.x = undefined;
+        playerPostion.y = undefined;
+        startGame();
+      }
 }
 
 function winGame(){
     console.log('Ganaste el juego')
+}
+
+function getStartTime(){
+    if(timeStart == 0){
+        timeStart = Date.now();
+    }else{
+        timeStart = timeStart;
+    }
+    console.log(timeStart);
+}
+
+function showLives(){
+    vidas.innerHTML = '';
+    const heartsArray = Array(lives).fill(emojis['HEART']);
+    heartsArray.forEach(item =>  {
+        vidas.innerHTML += `${item} `;
+    });
+}
+
+function showTimeGame(){
+    timeGame.innerHTML = Date.now() - timeStart;
 }
 
 window.addEventListener('keyup', mostrarTecla);
@@ -133,7 +170,8 @@ function moveUp(){
         playerPostion.y -= 1;
         playerPositionFinish.y = playerPostion.y * elementSize;
     }
-    setCanvasSize();
+    getStartTime();
+    startGame();
 }
 function moveDown(){
     if(playerPositionFinish.y == elementSize * 10){
@@ -142,7 +180,8 @@ function moveDown(){
         playerPostion.y += 1;
         playerPositionFinish.y = playerPostion.y * elementSize;
     }
-    setCanvasSize();
+    getStartTime();
+    startGame();
 }
 function moveRight(){
     if(playerPositionFinish.x == elementSize * 9){
@@ -151,7 +190,8 @@ function moveRight(){
         playerPostion.x += 1;
         playerPositionFinish.x = playerPostion.x * elementSize;
     }
-    setCanvasSize();
+    getStartTime();
+    startGame();
 }
 function moveLeft(){
     if(playerPositionFinish.x == 0){
@@ -160,5 +200,6 @@ function moveLeft(){
         playerPostion.x -= 1;
         playerPositionFinish.x = playerPostion.x * elementSize;
     }
-    setCanvasSize();
+    getStartTime();
+    startGame();
 }
