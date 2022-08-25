@@ -26,6 +26,8 @@ let timeStart;
 let timeInterval;
 let timePlayer;
 
+spanTimeRecord.innerHTML = localStorage.getItem('timeRecord');
+
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
 
@@ -38,7 +40,9 @@ function setCanvasSize(){
 }
 
 function startGame(){
-
+    if(localStorage.getItem('timeRecord',timePlayer)){
+        spanTimeRecord.classList.add('timeRecord');
+    }
     game.font = `${elementSize}px Arial`;
     game.textAlign = 'start';
     let mapaActual = mapasOrdenados[nivel];
@@ -112,12 +116,15 @@ function defeat(){
 
 function winGame(){
     clearInterval(timeInterval);
-    let recordGlobal = parseFloat(localStorage.getItem('timeRecord'));
-    console.log(recordGlobal);
-    // if(parseFloat(localStorage.getItem('timeRecord')) >= timePlayer){
-    //     localStorage.setItem('timeRecord',timePlayer);
-    // }
-    // spanTimeRecord.innerHTML = localStorage.getItem('timeRecord',timePlayer);
+    let recordGlobal = localStorage.getItem('timeRecord');
+    if(recordGlobal){
+        if(parseFloat(localStorage.getItem('timeRecord')) >= timePlayer){
+            localStorage.setItem('timeRecord',timePlayer);
+        }
+    }else{
+        localStorage.setItem('timeRecord',timePlayer);
+    }
+    spanTimeRecord.innerHTML = localStorage.getItem('timeRecord');
 }
 
 function getStartTime(){

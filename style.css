@@ -83,7 +83,13 @@ canvas.game{
     font-size: 1.6rem;
     min-width: 200px;
 }
-p span{
+p span:not(#timeRecord){
+    display: inline-block;
+    padding: 8px;
+    background-color: var(--negro);
+    border-radius: 4px;
+}
+p span.timeRecord{
     display: inline-block;
     padding: 8px;
     background-color: var(--negro);
