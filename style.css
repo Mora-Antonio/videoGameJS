@@ -74,6 +74,7 @@ canvas.game{
     width: 700px;
     display: flex;
     align-items: center;
+    justify-content: center;
     margin: 20px auto 0 auto;
 }
 .messages-container p{
