@@ -30,9 +30,6 @@ const spanTimeRecord = document.querySelector('#timeRecord');
 let timeStart;
 let timeInterval;
 let timePlayer;
-const gameOver = document.querySelector('.gameOver');
-let posicionCanvas;
-
 
 spanTimeRecord.innerHTML = localStorage.getItem('timeRecord');
 
@@ -45,7 +42,6 @@ function setCanvasSize(){
     canvas.setAttribute('height', canvasSize);
     valor = mapasOrdenados[nivel][0].length;
     elementSize = Math.floor(canvasSize/valor);
-    posicionCanvas = canvas.getBoundingClientRect().top;
     startGame();
 }
 
@@ -133,6 +129,7 @@ function defeat(){
             timeGame.innerHTML = '0.00';
             timeStart = undefined;
             collisionPosition.x = undefined;
+            setCanvasSize();
         }
         startGame();
       }
