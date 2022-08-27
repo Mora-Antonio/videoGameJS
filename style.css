@@ -13,6 +13,9 @@
 main{
     overflow-x: hidden;
 }
+button{
+    cursor: pointer;
+}
 section.game-container{
     width: 100vw;
     min-height: 100vh;
@@ -22,26 +25,57 @@ section.game-container{
     justify-content: center;
     padding: 10px 0;
 }
-h1{
+div.gameOver{
+    width: 320px;
+    position: absolute;
+    background-color: #10162f;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 170px;
+    border-radius: 10px;
+    border: 3px solid white;
+    display: none;
+}
+div.gameOver h1{
     font-size: 3.4rem;
     font-weight: 900;
     color: var(--blanco);
     background-color: #6400e4;
     padding: 12px;
     border-radius: 6px;
-    margin-top: 10px;
-    margin-bottom: 20px;
 }
-h1 span{
+div.gameOver h1 span{
     display: inline-block;
     padding: 3px;
     background-color: var(--negro);
+}
+div.gameOver button{
+    width: 100px;
+    height: 40px;
+    background-color: white;
+    border-radius: 6px;
+    margin-top: 10px;
+    animation: buttonActive 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+}
+@keyframes buttonActive{
+    0%{
+        transform: scale(1);
+    }
+    50%{
+        transform: scale(0.9);
+    }
+    100%{
+        transform: scale(1);
+    }
 }
 canvas.game{
     box-sizing: initial;
     border: 2px solid var(--azul);
     box-shadow: -6px 6px 0 var(--negro);
     background-color: var(--blanco);
+    margin: 0 auto;
     margin-top: 10px;
     padding: 0px 4px 4px 4px;
 }
@@ -76,13 +110,22 @@ canvas.game{
     align-items: center;
     justify-content: center;
     margin: 20px auto 0 auto;
+    gap: 4px;
 }
 .messages-container p{
     padding: 8px;
     color: var(--blanco);
     border-radius: 6px;
     font-size: 1.6rem;
-    min-width: 200px;
+    min-width: 240px;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #6400e4;
+}
+.messages-container p span:nth-child(1){
+    min-width: 86px;
+    text-align: center;
+    margin-right: 6px;
 }
 p span:not(#timeRecord){
     display: inline-block;
@@ -96,7 +139,7 @@ p span.timeRecord{
     background-color: var(--negro);
     border-radius: 4px;
 }
-@media (max-width: 610px){
+@media (max-width: 760px){
     .messages-container{
         width: 100%;
         flex-direction: column;
@@ -104,15 +147,21 @@ p span.timeRecord{
 }
 @media (max-width: 800px) {
     .buton-container{
-        display: grid;
+        width: 100%;
         max-width: 350px;
         height: auto;
+        display: grid;
         grid-template-columns: repeat(2,1fr);
         grid-template-rows: repeat(3,1fr);
-        gap: 20px;
+        padding: 0 6px;
+        gap: 15px;
     }
-    button{
+    .buton-container button{
+        width: 90%;
         place-self: center;
+    }
+    .buton-container button:nth-child(1),.buton-container button:nth-child(4){
+        width: 50%;
     }
     button#up{
         grid-column-start: 1;

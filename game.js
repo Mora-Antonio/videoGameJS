@@ -16,15 +16,23 @@ const trophyPostion = {
     x: undefined,
     y: undefined,
 }
+const collisionPosition= {
+    x: undefined,
+    y : undefined,
+}
 let enemyPositions = [];
 let nivel = 0;
-let lives = 3;
+let lives = 5;
+let valor;
 const vidas = document.querySelector('#lives');
 const timeGame = document.querySelector('#time');
 const spanTimeRecord = document.querySelector('#timeRecord');
 let timeStart;
 let timeInterval;
 let timePlayer;
+const gameOver = document.querySelector('.gameOver');
+let posicionCanvas;
+
 
 spanTimeRecord.innerHTML = localStorage.getItem('timeRecord');
 
@@ -35,7 +43,9 @@ function setCanvasSize(){
     window.innerHeight > window.innerWidth ? canvasSize = window.innerWidth * 0.75 : canvasSize = window.innerHeight * 0.75;
     canvas.setAttribute('width', canvasSize);
     canvas.setAttribute('height', canvasSize);
-    elementSize = Math.floor(canvasSize/10);
+    valor = mapasOrdenados[nivel][0].length;
+    elementSize = Math.floor(canvasSize/valor);
+    posicionCanvas = canvas.getBoundingClientRect().top;
     startGame();
 }
 
@@ -70,8 +80,10 @@ function startGame(){
                     x: posiconX,
                     y: posicionY,
                 })
+                if(collisionPosition.x){
+                    game.fillText(emojis['COLLISION'], collisionPosition.x * elementSize, collisionPosition.y * elementSize );
+                }
             }
-
             game.fillText(emojis[column], posiconX, posicionY );
         });
     });
@@ -90,26 +102,38 @@ function movePlayer(){
 function victory(){
     if(playerPositionFinish.x ===  trophyPostion.x && playerPositionFinish.y ===  trophyPostion.y){
         nivel += 1;
-        startGame();
+        collisionPosition.x = undefined;
+        if(!mapasOrdenados[nivel]){
+            winGame();
+            return
+        }
+        else{
+            playerPostion.x  = undefined;
+            setCanvasSize();
+        }
     }
 }
 function defeat(){
     const enemyCollision = enemyPositions.find(enemy => {
         const enemyCollisionX = enemy['x'] == playerPositionFinish.x;
         const enemyCollisionY = enemy['y'] == playerPositionFinish.y;
-        return enemyCollisionX && enemyCollisionY;}
+        return enemyCollisionX && enemyCollisionY;
+    }
     );
     if(enemyCollision){
         lives = lives -1;
+        collisionPosition.x = playerPostion.x;
+        collisionPosition.y = playerPostion.y;
+        playerPostion.x = undefined;
+        playerPostion.y = undefined;
         if(lives <= 0){
             nivel = 0;
-            lives = 3;
+            lives = 5;
             clearInterval(timeInterval);
             timeGame.innerHTML = '0.00';
             timeStart = undefined;
+            collisionPosition.x = undefined;
         }
-        playerPostion.x = undefined;
-        playerPostion.y = undefined;
         startGame();
       }
 }
@@ -125,6 +149,9 @@ function winGame(){
         localStorage.setItem('timeRecord',timePlayer);
     }
     spanTimeRecord.innerHTML = localStorage.getItem('timeRecord');
+}
+function defeatWame(){
+    
 }
 
 function getStartTime(){
@@ -154,7 +181,7 @@ window.addEventListener('keyup', mostrarTecla);
 function mostrarTecla(event){
     switch (event.code){
         case 'ArrowUp':
-            moveUp()
+            moveUp();
         break;
         case 'ArrowDown':
             moveDown()
@@ -190,7 +217,7 @@ function moveUp(){
     startGame();
 }
 function moveDown(){
-    if(playerPositionFinish.y == elementSize * 10){
+    if(playerPositionFinish.y == elementSize * valor){
         playerPostion.y = playerPostion.y;
     }else{
         playerPostion.y += 1;
@@ -200,7 +227,7 @@ function moveDown(){
     startGame();
 }
 function moveRight(){
-    if(playerPositionFinish.x == elementSize * 9){
+    if(playerPositionFinish.x == elementSize * (valor - 1)){
         playerPostion.x = playerPostion.x;
     }else{
         playerPostion.x += 1;
