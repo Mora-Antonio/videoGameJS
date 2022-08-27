@@ -150,7 +150,6 @@ function winGame(){
 function defeatWame(){
     
 }
-
 function getStartTime(){
     if(!timeStart){
         timeStart = Date.now();
